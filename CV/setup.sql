@@ -16,7 +16,7 @@ values('Louis Rock', 'Web Developer | Embeded system', 'louis.roques@ynov.com', 
 
 create table admins(
     id int primary key auto_increment,
-    username varchar(50) not null,
+    username varchar(50) not null UNIQUE,
     password varchar(255) not null
 );
 

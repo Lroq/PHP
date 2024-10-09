@@ -15,7 +15,7 @@ services:
   db:
     image: mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: "loulou"
+      MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "cv_db"
     volumes:
       - mysqldata:/var/lib/mysql

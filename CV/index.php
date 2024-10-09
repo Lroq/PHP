@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+// user online
+$isLoggedIn = isset($_SESSION['user_id']);
+$userName = $isLoggedIn ? $_SESSION['user_name'] : null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,15 +42,23 @@
                     <li class="nav-item">
                         <a class="nav-link" href="projects.php">Portfolio</a>
                     </li>
+                    <?php if ($isLoggedIn): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><?php echo htmlspecialchars($userName); ?></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php">Logout</a>
+                    </li>
+                    <?php else: ?>
                     <li class="nav-item">
                         <a class="nav-link" href="login.php">Login</a>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <div class="hero">
         <div class="container">
             <h1>Welcome to My CV Portfolio</h1>

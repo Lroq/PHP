@@ -1,5 +1,4 @@
 <?php
-session_start();
 require 'db.php'; // Database connection
 
 // Check if the user is logged in as an admin
