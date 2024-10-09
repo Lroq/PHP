@@ -1,6 +1,8 @@
 <?php
-session_unset();
-session_destroy();
+
+if (session_status() === PHP_SESSION_ACTIVE) {
+    session_destroy();
+}
 
 header("Location: index.php");
 exit();
