@@ -11,10 +11,11 @@ try {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];
         $password = $_POST['password'];
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt = $conn->prepare("INSERT INTO admins (username, password) VALUES (:email, :password)");
+        $stmt = $conn->prepare("INSERT INTO admins (email, password) VALUES (:email, :password)");
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':password', $passwordHash);
 
         if ($stmt->execute()) {
             // Afficher un message de confirmation et rediriger après quelques secondes
@@ -28,9 +29,8 @@ try {
             echo "Erreur lors de l'inscription.";
         }
     }
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Erreur: " . $e->getMessage();
 }
 
 $conn = null;
-?>
