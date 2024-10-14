@@ -13,7 +13,7 @@ try {
         $password = $_POST['password'];
 
         // Hachage sécurisé du mot de passe (tu devrais enregistrer le hash en BDD)
-        $stmt = $conn->prepare("SELECT * FROM admins WHERE username = :email");
+        $stmt = $conn->prepare("SELECT * FROM admins WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
 
@@ -34,9 +34,8 @@ try {
             echo "Email ou mot de passe incorrect.";
         }
     }
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Erreur: " . $e->getMessage();
 }
 
 $conn = null;
-?>
