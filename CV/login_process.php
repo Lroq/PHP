@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $servername = "db";
 $username = "root";
 $password = "root";
@@ -12,26 +14,42 @@ try {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // Hachage sécurisé du mot de passe (tu devrais enregistrer le hash en BDD)
+        // Vérification dans la table 'admins'
         $stmt = $conn->prepare("SELECT * FROM admins WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
 
-        // Vérification si l'utilisateur existe
         if ($stmt->rowCount() > 0) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            // Comparer le mot de passe avec celui stocké en base de données
+            // Comparaison des mots de passe
             if (password_verify($password, $user['password'])) {
-                // Stocke le nom d'utilisateur dans la session
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_name'] = $user['username'];
-                header("Location: index.php");
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = 'admin'; // Role administrateur
+                echo '<script type="text/javascript">window.location.href="index.php";</script>';
             } else {
                 echo "Mot de passe incorrect.";
             }
         } else {
-            echo "Email ou mot de passe incorrect.";
+            // Si l'utilisateur n'est pas trouvé dans 'admins', on vérifie dans 'user'
+            $stmt = $conn->prepare("SELECT * FROM user WHERE email = :email");
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                // Comparaison des mots de passe
+                if (password_verify($password, $user['password'])) {
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['role'] = 'user'; // Role utilisateur normal
+                    echo '<script type="text/javascript">window.location.href="index.php";</script>';
+                } else {
+                    echo "Mot de passe incorrect.";
+                }
+            } else {
+                echo "Email ou mot de passe incorrect.";
+            }
         }
     }
 } catch (PDOException $e) {
@@ -39,3 +57,4 @@ try {
 }
 
 $conn = null;
+?>

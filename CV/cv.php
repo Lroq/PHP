@@ -1,50 +1,58 @@
 <?php
-require 'db.php'; // Database connection
+session_start();
+require 'db.php'; // Connexion à la base de données
 
-// Check if the user is logged in as an admin
+// Récupérer l'ID utilisateur en session
+$userId = $_SESSION['user_id'] ?? null;
+
+// Rediriger si l'utilisateur n'est pas connecté
+if (!$userId) {
+    header("Location: login.php");
+    exit;
+}
+
+// Vérifier si l'utilisateur est un admin
 $isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'];
 
-// Retrieve personal information of the logged-in user
-$userId = $_SESSION['user_id'] ?? 1;
+// Récupérer les informations de l'utilisateur
 $stmt = $pdo->prepare('SELECT * FROM personal_info WHERE id = ?');
 $stmt->execute([$userId]);
 $personalInfo = $stmt->fetch();
 
-// Process form for updating personal info (admin only)
-if ($_SERVER["REQUEST_METHOD"] == "POST" && $isAdmin) {
+// Si les informations n'existent pas, en créer de nouvelles avec des valeurs par défaut
+if (!$personalInfo) {
+    // Insérer de nouvelles informations par défaut pour cet utilisateur
+    $stmt = $pdo->prepare('INSERT INTO personal_info (id, name, title, email, phone, profile_description, education, experience_pro, hobbies, skills) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $stmt->execute([$userId, 'Nom par défaut', 'Titre par défaut', 'email@exemple.com', '0123456789', 'Description par défaut', 'ynov campus', 'insert solutions', 'tennis, footing', 'html, css, js']); // Valeurs par défaut
+
+    
+    // Récupérer à nouveau les informations après l'insertion
+    $stmt = $pdo->prepare('SELECT * FROM personal_info WHERE id = ?');
+    $stmt->execute([$userId]);
+    $personalInfo = $stmt->fetch();
+}
+
+// Processus de modification du CV
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
     $name = $_POST['name'];
     $title = $_POST['title'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $profileDescription = $_POST['profileDescription'];
+    $education = $_POST['education'];
+    $experience = $_POST['experience'];
+    $skills = $_POST['skills'];
     $hobbies = $_POST['hobbies'];
 
-    // Update personal info in the database
-    $stmt = $pdo->prepare('UPDATE personal_info SET name = ?, title = ?, email = ?, phone = ?, profile_description = ? WHERE id = ?');
-    $stmt->execute([$name, $title, $email, $phone, $profileDescription, $hobbies, $userId]);
+    // Mettre à jour les informations existantes
+    $stmt = $pdo->prepare('UPDATE personal_info SET name = ?, title = ?, email = ?, phone = ?, profile_description = ?, education = ?, experience_pro = ?, skills = ?, hobbies = ? WHERE id = ?');
+    $stmt->execute([$name, $title, $email, $phone, $profileDescription, $education, $experience, $skills, $hobbies, $userId]);
 
-    // Redirect to reflect changes
-    header("Location: index.php");
+    // Rediriger pour afficher les changements
+    header("Location: cv.php");
     exit;
 }
 
-// Process new user creation (admin only)
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_user']) && $isAdmin) {
-    $newName = $_POST['new_name'];
-    $newTitle = $_POST['new_title'];
-    $newEmail = $_POST['new_email'];
-    $newPhone = $_POST['new_phone'];
-    $newProfileDescription = $_POST['new_profile_description'];
-    $hobbies = $_POST['new_hobbies'];
-
-    // Insert new user into the database
-    $stmt = $pdo->prepare('INSERT INTO personal_info (name, title, email, phone, profile_description) VALUES (?, ?, ?, ?, ?)');
-    $stmt->execute([$newName, $newTitle, $newEmail, $newPhone, $newProfileDescription]);
-
-    // Redirect after user creation
-    header("Location: index.php");
-    exit;
-}
 ?>
 
 <!DOCTYPE html>
@@ -59,154 +67,116 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_user']) && $isAdmi
 
 <body>
     <div class="container">
-        <!-- Header Section -->
+        <!-- Section en-tête -->
         <header class="cv-header">
-            <h1><?php echo $personalInfo['name']; ?></h1>
-            <p class="cv-title"><?php echo $personalInfo['title']; ?></p>
-            <p>Email: <?php echo $personalInfo['email']; ?> | Téléphone: <?php echo $personalInfo['phone']; ?></p>
-            <?php if ($isAdmin): ?>
+            <h1><?php echo htmlspecialchars($personalInfo['name']); ?></h1>
+            <p class="cv-title"><?php echo htmlspecialchars($personalInfo['title']); ?></p>
+            <p>Email: <?php echo htmlspecialchars($personalInfo['email']); ?> | Téléphone:
+                <?php echo htmlspecialchars($personalInfo['phone']); ?></p>
             <button id="editBtn">Modifier</button>
-            <button id="newUserBtn">Nouvel utilisateur</button>
-            <a href="logout.php">Déconnexion</a>
-            <?php else: ?>
-            <a href="login.php">Connexion Admin</a>
+            <?php if ($isAdmin): ?>
+            <a href="admin_dashboard.php">Gestion des utilisateurs</a>
             <?php endif; ?>
+            <a href="logout.php">Déconnexion</a>
         </header>
 
-        <!-- Profile Section -->
+        <!-- Section Profil -->
         <section class="cv-profile">
             <h2>Profil</h2>
-            <p><?php echo $personalInfo['profile_description']; ?></p>
+            <p><?php echo htmlspecialchars($personalInfo['profile_description']); ?></p>
         </section>
 
-        <!-- Education Section -->
+        <!-- Section Éducation -->
         <section class="cv-education">
             <h2>Éducation</h2>
-            <ul>
-                <li><strong>YNOV CAMPUS</strong> - Informatique (2023-2028)</li>
-                <li><strong>Epitech</strong> - 1er année (2021-2022)</li>
-                <li><strong>Baccalauréat Techno</strong> (Mention) (2020-2021)</li>
-            </ul>
+            <p><?php echo htmlspecialchars($personalInfo['education']); ?></p>
         </section>
 
-        <!-- Experience Section -->
+        <!-- Section Expérience -->
         <section class="cv-experience">
-            <h2>Parcours Professionnel</h2>
-            <ul>
-                <li><strong>Insert Solutions - Castres</strong> - taff saisonnier(tous les étés)</li>
-            </ul>
+            <h2>Expérience Professionnelle</h2>
+            <p><?php echo htmlspecialchars($personalInfo['experience']); ?></p>
         </section>
 
-        <!-- Skills Section -->
+        <!-- Section Compétences -->
         <section class="cv-skills">
             <h2>Compétences</h2>
-            <ul>
-                <li>Français (Natif)</li>
-                <li>Anglais (Basique)</li>
-                <li>Espagnol (Basique++)</li>
-            </ul>
+            <p><?php echo htmlspecialchars($personalInfo['skills']); ?></p>
         </section>
 
-        <!-- Hobbies Section -->
+        <!-- Section Hobbies -->
         <section class="cv-hobbies">
             <h2>Centres d'Intérêt</h2>
-            <ul>
-                <li>Jeux vidéo</li>
-                <li>Natation</li>
-                <li>Footing</li>
-            </ul>
+            <p><?php echo htmlspecialchars($personalInfo['hobbies']); ?></p>
         </section>
 
-        <!-- Modal for editing (admin only) -->
-        <?php if ($isAdmin): ?>
+        <!-- Modal pour modifier les informations -->
         <div id="myModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2>Modifier les informations personnelles</h2>
+                <h2>Modifier le CV</h2>
                 <form method="POST" action="">
+                    <input type="hidden" name="update_cv" value="1">
                     <label for="name">Nom :</label>
-                    <input type="text" id="name" name="name" value="<?php echo $personalInfo['name']; ?>" required>
+                    <input type="text" id="name" name="name"
+                        value="<?php echo htmlspecialchars($personalInfo['name']); ?>" required>
 
                     <label for="title">Titre :</label>
-                    <input type="text" id="title" name="title" value="<?php echo $personalInfo['title']; ?>" required>
+                    <input type="text" id="title" name="title"
+                        value="<?php echo htmlspecialchars($personalInfo['title']); ?>" required>
 
                     <label for="email">Email :</label>
-                    <input type="email" id="email" name="email" value="<?php echo $personalInfo['email']; ?>" required>
+                    <input type="email" id="email" name="email"
+                        value="<?php echo htmlspecialchars($personalInfo['email']); ?>" required>
 
                     <label for="phone">Téléphone :</label>
-                    <input type="text" id="phone" name="phone" value="<?php echo $personalInfo['phone']; ?>" required>
+                    <input type="text" id="phone" name="phone"
+                        value="<?php echo htmlspecialchars($personalInfo['phone']); ?>" required>
 
                     <label for="profileDescription">Description du profil :</label>
                     <textarea id="profileDescription" name="profileDescription"
-                        required><?php echo $personalInfo['profile_description']; ?></textarea>
+                        required><?php echo htmlspecialchars($personalInfo['profile_description']); ?></textarea>
+
+                    <label for="education">Éducation :</label>
+                    <textarea id="education" name="education"
+                        required><?php echo htmlspecialchars($personalInfo['education']); ?></textarea>
+
+                    <label for="experience">Expérience Professionnelle :</label>
+                    <textarea id="experience" name="experience"
+                        required><?php echo htmlspecialchars($personalInfo['experience']); ?></textarea>
+
+                    <label for="skills">Compétences :</label>
+                    <textarea id="skills" name="skills"
+                        required><?php echo htmlspecialchars($personalInfo['skills']); ?></textarea>
+
+                    <label for="hobbies">Centres d'Intérêt :</label>
+                    <textarea id="hobbies" name="hobbies"
+                        required><?php echo htmlspecialchars($personalInfo['hobbies']); ?></textarea>
 
                     <input type="submit" value="Enregistrer les modifications">
                 </form>
             </div>
         </div>
 
-        <!-- Modal for new user creation (admin only) -->
-        <div id="newUserModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Créer un nouvel utilisateur</h2>
-                <form method="POST" action="">
-                    <input type="hidden" name="new_user" value="1">
-                    <label for="new_name">Nom :</label>
-                    <input type="text" id="new_name" name="new_name" required>
-
-                    <label for="new_title">Titre :</label>
-                    <input type="text" id="new_title" name="new_title" required>
-
-                    <label for="new_email">Email :</label>
-                    <input type="email" id="new_email" name="new_email" required>
-
-                    <label for="new_phone">Téléphone :</label>
-                    <input type="text" id="new_phone" name="new_phone" required>
-
-                    <label for="new_profile_description">Description du profil :</label>
-                    <textarea id="new_profile_description" name="new_profile_description" required></textarea>
-
-                    <input type="submit" value="Créer l'utilisateur">
-                </form>
-            </div>
-        </div>
-        <?php endif; ?>
     </div>
 
     <script>
-    // Modal handling for editing and new user creation
-    var editModal = document.getElementById("myModal");
-    var newUserModal = document.getElementById("newUserModal");
+    // Gestion du modal pour modifier
+    var modal = document.getElementById("myModal");
     var editBtn = document.getElementById("editBtn");
-    var newUserBtn = document.getElementById("newUserBtn");
-    var closeBtns = document.getElementsByClassName("close");
+    var closeBtn = document.getElementsByClassName("close")[0];
 
-    if (editBtn) {
-        editBtn.onclick = function() {
-            editModal.style.display = "block";
-        }
+    editBtn.onclick = function() {
+        modal.style.display = "block";
     }
 
-    if (newUserBtn) {
-        newUserBtn.onclick = function() {
-            newUserModal.style.display = "block";
-        }
-    }
-
-    for (let i = 0; i < closeBtns.length; i++) {
-        closeBtns[i].onclick = function() {
-            editModal.style.display = "none";
-            newUserModal.style.display = "none";
-        }
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
     }
 
     window.onclick = function(event) {
-        if (event.target == editModal) {
-            editModal.style.display = "none";
-        }
-        if (event.target == newUserModal) {
-            newUserModal.style.display = "none";
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
     }
     </script>

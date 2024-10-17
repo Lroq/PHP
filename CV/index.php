@@ -3,7 +3,7 @@ session_start();
 
 // user online
 $isLoggedIn = isset($_SESSION['user_id']);
-$userName = $isLoggedIn ? $_SESSION['user_name'] : null;
+$username = $isLoggedIn ? $_SESSION['username'] : null;
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +44,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : null;
                     </li>
                     <?php if ($isLoggedIn): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><?php echo htmlspecialchars($userName); ?></a>
+                        <a class="nav-link" href="profil.php"><?php echo $username; ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Logout</a>
@@ -54,6 +54,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : null;
                         <a class="nav-link" href="login.php">Login</a>
                     </li>
                     <?php endif; ?>
+
                 </ul>
             </div>
         </div>
