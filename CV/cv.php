@@ -1,58 +1,64 @@
 <?php
 session_start();
-require 'db.php'; // Connexion à la base de données
+require 'db.php';
 
 // Récupérer l'ID utilisateur en session
 $userId = $_SESSION['user_id'] ?? null;
 
-// Rediriger si l'utilisateur n'est pas connecté
-if (!$userId) {
-    header("Location: login.php");
-    exit;
-}
-
 // Vérifier si l'utilisateur est un admin
 $isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'];
 
-// Récupérer les informations de l'utilisateur
-$stmt = $pdo->prepare('SELECT * FROM personal_info WHERE id = ?');
-$stmt->execute([$userId]);
-$personalInfo = $stmt->fetch();
-
-// Si les informations n'existent pas, en créer de nouvelles avec des valeurs par défaut
-if (!$personalInfo) {
-    // Insérer de nouvelles informations par défaut pour cet utilisateur
-    $stmt = $pdo->prepare('INSERT INTO personal_info (id, name, title, email, phone, profile_description, education, experience_pro, hobbies, skills) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-    $stmt->execute([$userId, 'Nom par défaut', 'Titre par défaut', 'email@exemple.com', '0123456789', 'Description par défaut', 'ynov campus', 'insert solutions', 'tennis, footing', 'html, css, js']); // Valeurs par défaut
-
-    
-    // Récupérer à nouveau les informations après l'insertion
+// Récupérer les informations de l'utilisateur ou des valeurs par défaut
+if ($userId) {
+    // L'utilisateur est connecté, récupère ses informations
     $stmt = $pdo->prepare('SELECT * FROM personal_info WHERE id = ?');
     $stmt->execute([$userId]);
+    $personalInfo = $stmt->fetch();
+
+    // Si les informations n'existent pas, en créer de nouvelles avec des valeurs par défaut
+    if (!$personalInfo) {
+        // Insérer de nouvelles informations par défaut pour cet utilisateur
+        $stmt = $pdo->prepare('INSERT INTO personal_info (id, name, title, email, phone, profile_description, education, experience_pro, hobbies, skills) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $stmt->execute([$userId, 'Louis Roques', 'Titre par défaut', 'email@exemple.com', '0123456789', 'Description par défaut', 'ynov campus', 'insert solutions', 'tennis, footing', 'html, css, js']);
+
+        // Récupérer à nouveau les informations après l'insertion
+        $stmt = $pdo->prepare('SELECT * FROM personal_info WHERE id = ?');
+        $stmt->execute([$userId]);
+        $personalInfo = $stmt->fetch();
+    }
+} else {
+    // L'utilisateur n'est pas connecté, récupère les valeurs par défaut de la table
+    $stmt = $pdo->prepare('SELECT * FROM personal_info WHERE id = ?');
+    $stmt->execute([1]); // Remplace 1 par l'ID que tu souhaites récupérer comme valeur par défaut
     $personalInfo = $stmt->fetch();
 }
 
 // Processus de modification du CV
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
-    $name = $_POST['name'];
-    $title = $_POST['title'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $profileDescription = $_POST['profileDescription'];
-    $education = $_POST['education'];
-    $experience = $_POST['experience'];
-    $skills = $_POST['skills'];
-    $hobbies = $_POST['hobbies'];
+    // Vérifie si l'utilisateur est connecté avant de mettre à jour
+    if ($userId) {
+        $name = $_POST['name'];
+        $title = $_POST['title'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $profileDescription = $_POST['profileDescription'];
+        $education = $_POST['education'];
+        $experience = $_POST['experience'];
+        $skills = $_POST['skills'];
+        $hobbies = $_POST['hobbies'];
 
-    // Mettre à jour les informations existantes
-    $stmt = $pdo->prepare('UPDATE personal_info SET name = ?, title = ?, email = ?, phone = ?, profile_description = ?, education = ?, experience_pro = ?, skills = ?, hobbies = ? WHERE id = ?');
-    $stmt->execute([$name, $title, $email, $phone, $profileDescription, $education, $experience, $skills, $hobbies, $userId]);
+        // Mettre à jour les informations existantes
+        $stmt = $pdo->prepare('UPDATE personal_info SET name = ?, title = ?, email = ?, phone = ?, profile_description = ?, education = ?, experience_pro = ?, skills = ?, hobbies = ? WHERE id = ?');
+        $stmt->execute([$name, $title, $email, $phone, $profileDescription, $education, $experience, $skills, $hobbies, $userId]);
 
-    // Rediriger pour afficher les changements
-    header("Location: cv.php");
-    exit;
+        // Rediriger pour afficher les changements
+        header("Location: cv.php");
+        exit;
+    } else {
+        // Optionnel : afficher un message d'erreur si l'utilisateur n'est pas connecté
+        echo "Vous devez être connecté pour modifier votre CV.";
+    }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -73,11 +79,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
             <p class="cv-title"><?php echo htmlspecialchars($personalInfo['title']); ?></p>
             <p>Email: <?php echo htmlspecialchars($personalInfo['email']); ?> | Téléphone:
                 <?php echo htmlspecialchars($personalInfo['phone']); ?></p>
+            <?php if ($userId): ?>
             <button id="editBtn">Modifier</button>
-            <?php if ($isAdmin): ?>
-            <a href="admin_dashboard.php">Gestion des utilisateurs</a>
+            <a href="index.php">Retour</a>
+            <?php else: ?>
+            <p>Veuillez vous connecter pour modifier ces informations.</p>
+            <a href="login.php">Se connecter</a>
+            <a href="index.php">Retour</a>
             <?php endif; ?>
-            <a href="logout.php">Déconnexion</a>
         </header>
 
         <!-- Section Profil -->
@@ -95,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
         <!-- Section Expérience -->
         <section class="cv-experience">
             <h2>Expérience Professionnelle</h2>
-            <p><?php echo htmlspecialchars($personalInfo['experience']); ?></p>
+            <p><?php echo htmlspecialchars($personalInfo['experience_pro']); ?></p>
         </section>
 
         <!-- Section Compétences -->
@@ -143,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
 
                     <label for="experience">Expérience Professionnelle :</label>
                     <textarea id="experience" name="experience"
-                        required><?php echo htmlspecialchars($personalInfo['experience']); ?></textarea>
+                        required><?php echo htmlspecialchars($personalInfo['experience_pro']); ?></textarea>
 
                     <label for="skills">Compétences :</label>
                     <textarea id="skills" name="skills"
@@ -157,7 +166,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
                 </form>
             </div>
         </div>
-
     </div>
 
     <script>
@@ -166,8 +174,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
     var editBtn = document.getElementById("editBtn");
     var closeBtn = document.getElementsByClassName("close")[0];
 
-    editBtn.onclick = function() {
-        modal.style.display = "block";
+    if (editBtn) {
+        editBtn.onclick = function() {
+            modal.style.display = "block";
+        }
     }
 
     closeBtn.onclick = function() {

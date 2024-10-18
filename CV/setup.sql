@@ -14,7 +14,7 @@ create table IF NOT EXISTS personal_info(
 );
 
 insert into personal_info(name, title, email, phone, profile_description, education, experience_pro, hobbies, skills)
-values('Louis Rock', 'Web Developer | Embeded system', 'louis.roques@ynov.com', '0642475418', 'I am, so you are', 'ynov campus', 'insert solutions', 'Jeux video', 'HTML, CSS, JavaScript, PHP, MySQL');
+values('Louis Rock', 'Web Developer | Embeded system', 'louis.roques@ynov.com', '0644556742', 'I am, so you are', 'ynov campus', 'insert solutions', 'Jeux video', 'HTML, CSS, JavaScript, PHP, MySQL');
 
 create table IF NOT EXISTS admins(
     id int primary key auto_increment,

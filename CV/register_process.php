@@ -1,14 +1,12 @@
 <?php
-$servername = "db";
-$username = "root";
-$password = "root";
-$dbname = "cv_db";
+session_start();
+require 'db.php';
 
 // Mot de passe spécial pour devenir admin
 $adminSecret = 'adminpass123';
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn = new PDO("mysql:host=db;dbname=cv_db", "root", "root");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -26,14 +24,17 @@ try {
             $stmt->bindParam(':password', $passwordHash);
 
             if ($stmt->execute()) {
-                echo "<script>
-                        alert('Inscription en tant qu\'administrateur réussie.');
-                        setTimeout(function() {
-                            window.location.href = 'login.php';
-                        }, 1000);
-                      </script>";
+                // Connexion automatique
+                $_SESSION['user_id'] = $conn->lastInsertId(); // Récupérer l'ID de l'utilisateur
+                $_SESSION['username'] = $username;
+                $_SESSION['email'] = $email;
+                $_SESSION['is_admin'] = true;
+
+                header("Location: index.php");
+                exit;
             } else {
-                echo "Erreur lors de l'inscription en tant qu'administrateur.";
+                header("Location: register.php");
+                exit;
             }
         } else {
             // Ajouter l'utilisateur dans la table user (non-admin)
@@ -43,19 +44,23 @@ try {
             $stmt->bindParam(':password', $passwordHash);
 
             if ($stmt->execute()) {
-                echo "<script>
-                        alert('Inscription réussie.');
-                        setTimeout(function() {
-                            window.location.href = 'login.php';
-                        }, 1000);
-                      </script>";
+                // Connexion automatique
+                $_SESSION['user_id'] = $conn->lastInsertId(); // Récupérer l'ID de l'utilisateur
+                $_SESSION['username'] = $username;
+                $_SESSION['email'] = $email;
+                $_SESSION['is_admin'] = false;
+
+                header("Location: index.php");
+                exit;
             } else {
-                echo "Erreur lors de l'inscription.";
+                header("Location: register.php?");
+                exit;
             }
         }
     }
 } catch (PDOException $e) {
-    echo "Erreur: " . $e->getMessage();
+    header("Location: register.php" . $e->getMessage());
+    exit;
 }
 
 $conn = null;
