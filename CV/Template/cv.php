@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require '../db.php';
 
 // Récupérer l'ID utilisateur en session
 $userId = $_SESSION['user_id'] ?? null;
@@ -68,10 +68,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV</title>
-    <link rel="stylesheet" href="cv.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="Static/cv.css">
 </head>
 
+
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">My CV Portfolio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.php">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="portfolio.php">Portfolio</a>
+                    </li>
+                    <?php if ($userId): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php">Logout</a>
+                    </li>
+                    <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.php">Login</a>
+                    </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <!-- Section en-tête -->
         <header class="cv-header">
@@ -84,8 +118,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
             <a href="index.php">Retour</a>
             <?php else: ?>
             <p>Veuillez vous connecter pour modifier ces informations.</p>
-            <a href="login.php">Se connecter</a>
-            <a href="index.php">Retour</a>
+            <a href="login.php" class="button-style">Se connecter</a>
+            <a href="index.php" class="button-style">Retour</a>
+
             <?php endif; ?>
         </header>
 
@@ -190,6 +225,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
         }
     }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

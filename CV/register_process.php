@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require '../db.php';
 
 // Mot de passe spécial pour devenir admin
 $adminSecret = 'adminpass123';

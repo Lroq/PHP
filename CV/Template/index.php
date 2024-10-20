@@ -12,7 +12,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Static/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>CV</title>
 </head>
@@ -40,7 +40,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
                         <a class="nav-link" href="cv.php">CV</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="projects.php">Portfolio</a>
+                        <a class="nav-link" href="portfolio.php">Portfolio</a>
                     </li>
                     <?php if ($isLoggedIn): ?>
                     <li class="nav-item">
@@ -65,7 +65,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
             <h1>Welcome to My CV Portfolio</h1>
             <p>Explore my professional journey, skills, and projects.</p>
             <a href="cv.php" class="btn btn-primary">View My CV</a>
-            <a href="projects.php" class="btn btn-outline-light">View My Projects</a>
+            <a href="portfolio.php" class="btn btn-outline-light">View My Projects</a>
         </div>
     </div>
 
@@ -74,12 +74,34 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
         <div class="container">
             <h2>About Me</h2>
             <p>
-                I am a passionate web developer with a love for creating dynamic and engaging websites. Over the years,
-                I have worked on various projects that highlight my skills in front-end and back-end development.
+                Passionné par la technologie et le développement web, je suis un développeur full-stack avec une
+                expertise solide dans la création d'applications performantes et intuitives. Mon parcours m’a permis de
+                maîtriser divers langages de programmation, notamment PHP, JavaScript, et Python, ainsi que des
+                frameworks modernes tels que Laravel, React, et Django. Mon approche axée sur l'utilisateur me pousse à
+                concevoir des solutions qui ne se contentent pas de répondre aux exigences fonctionnelles, mais qui
+                offrent également une expérience utilisateur fluide et agréable.
             </p>
             <p>
-                This website is a collection of my professional work, including my CV, portfolio, and projects. Feel
-                free to explore!
+                Avec une attention particulière pour les détails et une forte capacité à résoudre des problèmes, je
+                m'efforce de fournir des solutions innovantes qui répondent aux besoins des utilisateurs tout en
+                garantissant la qualité du code. Je crois fermement aux bonnes pratiques de développement, c'est
+                pourquoi j'applique des méthodes agiles dans la gestion de mes projets, favorisant ainsi la
+                collaboration et l'efficacité au sein des équipes. Mon expérience inclut également l’intégration de
+                bases de données, la création d'API RESTful, et le déploiement d'applications sur des serveurs cloud
+                tels qu'AWS et Heroku, me permettant d'optimiser les performances et la scalabilité des projets.
+            </p>
+            <p>
+                En plus de mes compétences techniques, je m'intéresse de près aux nouvelles technologies et aux
+                tendances émergentes du secteur, notamment le développement d'applications mobiles, le machine learning,
+                et la sécurité des applications web. Je suis convaincu que l'apprentissage continu est essentiel pour
+                rester pertinent dans un domaine en constante évolution, et je m'efforce toujours d'acquérir de
+                nouvelles compétences par le biais de cours, de lectures, et de projets personnels.
+            </p>
+            <p>
+                Motivé par les défis technologiques, je recherche constamment des opportunités de collaboration avec
+                d'autres professionnels afin de créer des projets exceptionnels qui ont un impact positif sur les
+                utilisateurs et la société. Je crois que la technologie peut être un puissant catalyseur de changement,
+                et je suis déterminé à contribuer à cette évolution à travers mon travail et mes passions.
             </p>
         </div>
     </section>
@@ -89,7 +111,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
         <div class="container">
             <h2>Contact Me</h2>
             <p>If you’d like to get in touch, feel free to drop me a message.</p>
-            <a href="contact.html" class="btn btn-primary">Contact Form</a>
+            <a href="contact.php" class="btn btn-primary">Contact Form</a>
         </div>
     </section>
 

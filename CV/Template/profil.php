@@ -2,7 +2,7 @@
 session_start();
 
 // Inclusion du fichier de connexion à la base de données
-include 'db.php';
+include '../db.php';
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
