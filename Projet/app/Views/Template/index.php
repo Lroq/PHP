@@ -12,7 +12,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Static/style.css">
+    <link rel="stylesheet" href="/Views/Template/Static/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>CV</title>
 </head>
@@ -37,21 +37,21 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
                         <a class="nav-link" href="#contact">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="cv.php">CV</a>
+                        <a class="nav-link" href="/Views/Template/cv.php">CV</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="portfolio.php">Portfolio</a>
+                        <a class="nav-link" href="/Views/Template/portfolio.php">Portfolio</a>
                     </li>
                     <?php if ($isLoggedIn): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="profil.php"><?php echo $username; ?></a>
+                        <a class="nav-link" href="/Views/Template/profil.php"><?php echo $username; ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a>
+                        <a class="nav-link" href="/Views/Template/logout.php">Logout</a>
                     </li>
                     <?php else: ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
+                        <a class="nav-link" href="/Views/Template/login.php">Login</a>
                     </li>
                     <?php endif; ?>
 
@@ -64,8 +64,8 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
         <div class="container">
             <h1>Welcome to My CV Portfolio</h1>
             <p>Explore my professional journey, skills, and projects.</p>
-            <a href="cv.php" class="btn btn-primary">View My CV</a>
-            <a href="portfolio.php" class="btn btn-outline-light">View My Projects</a>
+            <a href="/Views/Template/cv.php" class="btn btn-primary">View My CV</a>
+            <a href="/Views/Template/portfolio.php" class="btn btn-outline-light">View My Projects</a>
         </div>
     </div>
 
@@ -111,7 +111,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
         <div class="container">
             <h2>Contact Me</h2>
             <p>If you’d like to get in touch, feel free to drop me a message.</p>
-            <a href="contact.php" class="btn btn-primary">Contact Form</a>
+            <a href="/Views/Template/contact.php" class="btn btn-primary">Contact Form</a>
         </div>
     </section>
 

@@ -3,17 +3,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function fetchGitHubProjects() {
-    const githubUsername = 'Lroq'; // Remplace par ton nom d'utilisateur GitHub
+    const githubUsername = 'Lroq';
     const apiUrl = `https://api.github.com/users/${githubUsername}/repos`;
 
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             const portfolioContainer = document.getElementById('portfolio-container');
-            portfolioContainer.innerHTML = ''; // Réinitialiser le contenu
+            portfolioContainer.innerHTML = '';
             data.forEach(repo => {
                 let card = document.createElement('div');
-                card.classList.add('card', 'col-md-4', 'mb-4'); // Classes Bootstrap pour une meilleure mise en page
+                card.classList.add('card', 'col-md-4', 'mb-4');
                 card.innerHTML = `
                     <div class="card-body">
                         <h5 class="card-title">${repo.name}</h5>

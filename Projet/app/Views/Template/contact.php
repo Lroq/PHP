@@ -31,25 +31,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Static/contact.css">
+    <link rel="stylesheet" href="/Views/Template/Static/contact.css">
     <title>Contactez-nous</title>
     <!-- Lien Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Lien Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Lien SweetAlert2 -->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
     <div class="position-fixed top-left m-3">
-        <a href="index.php" class="btn btn-primary">Retour</a>
+        <a href="/Views/Template/index.php" class="btn btn-primary">Retour</a>
     </div>
 
     <div class="container mt-5">
         <div class="contact-form">
             <h1 class="contact-title"><i class="fas fa-envelope"></i> Contactez-nous</h1>
-            <form method="POST" action="contact.php">
+            <form method="POST" action="/Views/Template/contact.php">
                 <div class="mb-3">
                     <label for="name" class="form-label">Nom</label>
                     <input type="text" class="form-control" id="name" name="name" required>
@@ -66,6 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
     </div>
+    <br>
+    <footer>
+        <center>
+            <p>&copy; 2024 My CV Portfolio | All Rights Reserved</p>
+        </center>
+    </footer>
 
     <!-- Script Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

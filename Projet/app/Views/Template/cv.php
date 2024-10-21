@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../db.php';
+require '../../Model/db.php';
 
 // Récupérer l'ID utilisateur en session
 $userId = $_SESSION['user_id'] ?? null;
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="Static/cv.css">
+    <link rel="stylesheet" href="/Views/Template/Static/cv.css">
 </head>
 
 
@@ -84,21 +84,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Home</a>
+                        <a class="nav-link" href="/Views/Template/index.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Contact</a>
+                        <a class="nav-link" href="/Views/Template/contact.php">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="portfolio.php">Portfolio</a>
+                        <a class="nav-link" href="/Views/Template/portfolio.php">Portfolio</a>
                     </li>
                     <?php if ($userId): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a>
+                        <a class="nav-link" href="/Views/Template/logout.php">Logout</a>
                     </li>
                     <?php else: ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
+                        <a class="nav-link" href="/Views/Template/login.php">Login</a>
                     </li>
                     <?php endif; ?>
                 </ul>
@@ -115,11 +115,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
                 <?php echo htmlspecialchars($personalInfo['phone']); ?></p>
             <?php if ($userId): ?>
             <button id="editBtn">Modifier</button>
-            <a href="index.php">Retour</a>
+            <a href="/Views/Template/index.php">Retour</a>
             <?php else: ?>
             <p>Veuillez vous connecter pour modifier ces informations.</p>
-            <a href="login.php" class="button-style">Se connecter</a>
-            <a href="index.php" class="button-style">Retour</a>
+            <a href="/Views/Template/login.php" class="button-style">Se connecter</a>
+            <a href="/Views/Template/index.php" class="button-style">Retour</a>
 
             <?php endif; ?>
         </header>
@@ -202,6 +202,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
             </div>
         </div>
     </div>
+    <br>
+    <footer>
+        <center>
+            <p>&copy; 2024 My CV Portfolio | All Rights Reserved</p>
+        </center>
+    </footer>
 
     <script>
     // Gestion du modal pour modifier

@@ -2,7 +2,7 @@
 session_start();
 
 // Inclusion du fichier de connexion à la base de données
-include '../db.php';
+include '../../Model/db.php';
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/Views/Template/Static/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Profile</title>
 </head>
@@ -206,6 +206,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit" class="btn btn-primary">Update Profile</button>
         </form>
     </div>
+    <br>
+    <footer>
+        <center>
+            <p>&copy; 2024 My CV Portfolio | All Rights Reserved</p>
+        </center>
+    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

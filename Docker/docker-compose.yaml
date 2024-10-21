@@ -7,11 +7,11 @@ services:
       - "80:80"
     volumes:
       - ./services/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
-      - ../CV:/app
+      - ../Projet/app:/app
   app:
     build: services/php
     volumes:
-      - ../CV:/app
+      - ../Projet/app:/app
   db:
     image: mariadb:latest
     environment:
