@@ -97,6 +97,3 @@ A simplified JavaScript library for interacting with the DOM.
 
 ### SweetAlert2
 A JavaScript library for creating beautiful alerts.
-
-### Notie / Toastr
-JavaScript libraries for creating stylish toast notifications.
