@@ -13,12 +13,13 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/Views/Template/Static/style.css">
+    <link rel="stylesheet" href="/Views/Template/Static/toogle.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>CV</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">My CV Portfolio</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -43,22 +44,25 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
                         <a class="nav-link" href="/Views/Template/portfolio.php">Portfolio</a>
                     </li>
                     <?php if ($isLoggedIn): ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Views/Template/profil.php"><?php echo $username; ?></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Views/Template/logout.php">Logout</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Views/Template/profil.php"><?php echo $username; ?></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Views/Template/logout.php">Logout</a>
+                        </li>
                     <?php else: ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Views/Template/login.php">Login</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Views/Template/login.php">Login</a>
+                        </li>
                     <?php endif; ?>
 
                 </ul>
             </div>
         </div>
     </nav>
+
+    <!-- Theme Switcher -->
+    <input type="checkbox" class="theme-checkbox" id="themeSwitcher">
 
     <div class="hero">
         <div class="container">
@@ -107,7 +111,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-5 bg-light">
+    <section id="contact" class="py-5 bg">
         <div class="container">
             <h2>Contact Me</h2>
             <p>If you’d like to get in touch, feel free to drop me a message.</p>
@@ -122,6 +126,9 @@ $username = $isLoggedIn ? $_SESSION['username'] : null;
 
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Theme Switcher -->
+    <script src="/Views/Template/js/toogle.js"></script>
 </body>
 
 </html>

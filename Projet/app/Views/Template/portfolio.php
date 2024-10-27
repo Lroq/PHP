@@ -10,6 +10,7 @@ $userId = $_SESSION['user_id'] ?? null;
     <title>Portfolio</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/Views/Template/Static/portfolio.css">
+    <link rel="stylesheet" href="/Views/Template/Static/toogle.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
@@ -33,18 +34,22 @@ $userId = $_SESSION['user_id'] ?? null;
                         <a class="nav-link" href="/Views/Template/cv.php">CV</a>
                     </li>
                     <?php if ($userId): ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Views/Template/logout.php">Logout</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Views/Template/logout.php">Logout</a>
+                        </li>
                     <?php else: ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Views/Template/login.php">Login</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Views/Template/login.php">Login</a>
+                        </li>
                     <?php endif; ?>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <!-- Theme Switcher -->
+    <input type="checkbox" class="theme-checkbox" id="themeSwitcher">
+
     <div class="position-fixed top-left m-3">
         <a href="/Views/Template/index.php" class="position-fixed bottom-left m-3">Retour</a>
     </div>
@@ -66,6 +71,7 @@ $userId = $_SESSION['user_id'] ?? null;
     </footer>
 
     <script src="/Views/Template/js/portfolio.js"></script>
+    <script src="/Views/Template/js/toogle.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

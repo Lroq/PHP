@@ -1,99 +1,59 @@
-# TP - CV Project
+# 📄 Projet CV/Portfolio en PHP
 
-## Context
-As part of the PHP course, we will develop a web project. The goal is to create multiple pages and persist data while following best practices.
+Bienvenue sur mon projet de CV en ligne ! Ce site web en PHP permet de créer un CV complet et interactif. J'y ai intégré plusieurs fonctionnalités pour que les utilisateurs puissent voir et modifier leur CV, et voir leur portfolio de projets de manière dynamique.
 
-- **Red**: High Priority
-- **Magenta**: Do not prioritize for now
+## 🎯 Objectifs
+L'objectif est de présenter un CV/Portfolio interactif en suivant les bonnes pratiques PHP. J'ai structuré ce site pour qu'il soit facilement navigable et qu'il offre des options de personnalisation.
 
-## Instructions
-You need to create a CV/Portfolio website consisting of several pages with various features to manage CVs/Portfolios.
+## 🌐 Fonctionnalités du Site
 
-## Submission Guidelines
-To evaluate the quality of your work, you must submit a GitHub link in the following format: `https://github.com/Lroq/PHP`.
-Someone who has never worked with PHP should be able to start your project.
+### 1. Pages principales
+Chaque page répond à un besoin spécifique :
+- **Accueil** : page d'introduction statique.
+- **Contact** : formulaire de contact.
+- **CV** : présentation du parcours, des expériences et des compétences, avec option d'édition.
+- **Projets** : liste des projets.
+- **Connexion/Déconnexion** : pour gérer un accès sécurisé.
+- **Profil** : page personnelle modifiable par l'utilisateur.
 
-## Expected Content
-
-### Website Pages
-Your website must include at least the following pages:
-- A static landing page (homepage)
-- A contact page
-- An editable CV page (see code examples from the course)
-- A projects listing page
-- A login page (see code examples from the course)
-- A logout page (see code examples from the course)
-- A profile page
-- An "Admin Panel" page
-
-### Website Features
-To have your project validated, the following features must be implemented:
-
-#### General
-- Your site must have a header and footer.
-- Navigation should be done through a menu.
-- Once logged in, the user’s first and last name should appear on the interface.
+### 2. Fonctionnalités clés
 
 #### Contact
-- The contact page should display a form that sends emails.
-- The contact page should also show a map representing your city.
+- **Formulaire de contact** pour envoyer des messages directement.
 
-#### Authentication
-- Users should be able to log in and log out.
-- Users should be able to add other users (with roles).
+#### Authentification
+- **Connexion/Déconnexion** sécurisées pour accéder aux fonctions avancées.
+- Ajout d’utilisateurs avec des rôles spécifiques.
 
 #### CV
-- When logged in, users should see their CV information.
-- Logged-in users should be able to edit their CV information.
-- Logged-in users should be able to customize the CV page style.
-- Any user should be able to select a CV to display.
-- Any user should be able to download a CV as a PDF.
+- **Visualisation et édition** du CV pour les utilisateurs connectés.
 
-#### Projects/Portfolio
-- Logged-in users should be able to add projects.
-- Admins should be able to customize the style of the Projects/Portfolio page.
-- Users should be able to mark projects as favorites.
-- Users should be able to search through projects.
-- Users should be able to add comments to projects.
-- Projects must be approved by an admin before they are visible.
+#### Projets / Portfolio
+- Ajout et gestion des projets, visibles dans un portfolio.
 
-#### Profile
-- Logged-in users should be able to edit their profile information.
+#### Profil
+- Modification des informations personnelles par l’utilisateur connecté.
 
-#### Admin Panel
-- Admins should be able to manage users.
-- Admins should be able to manage projects.
+## ⚙️ Structure des Données
 
-### Objects
-Below are the minimum expected objects and associated data:
+Les informations sont organisées autour de trois principaux objets :
+- **Utilisateur** : contient l'email, le prénom, le nom, le mot de passe et le rôle.
+- **CV** : regroupe le titre, la description, les compétences (titre, description, années d'expérience), les expériences professionnelles (titre, dates) et la formation (établissement, dates).
+- **Projet** : chaque projet comporte un titre, une description et une image.
 
-- **User**:
-  - email
-  - first_name
-  - last_name
-  - password
-  - role
+## 🚀 Lancement du Projet
 
-- **CV**:
-  - title
-  - description
-  - skills (skill: title, description, years_of_experience)
-  - experiences (experience: title, start_date, end_date)
-  - education (education: school, start_date, end_date)
+Pour utiliser ce site en local :
 
-- **Project**:
-  - title
-  - description
-  - image
+1. Ouvrez **Docker Desktop**.
+2. Dans un terminal, démarrez le site en lançant la commande :
 
-## Tools
+```bash
+docker compose up
+```
 
-### Bootstrap
-A CSS framework providing ready-to-use components and utility classes.
-Alternative: Tailwind
+3. Accédez au site via l'URL suivante :
+```bash
+http://127.0.0.1
+```
 
-### jQuery
-A simplified JavaScript library for interacting with the DOM.
-
-### SweetAlert2
-A JavaScript library for creating beautiful alerts.

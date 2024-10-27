@@ -70,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
     <title>CV</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/Views/Template/Static/cv.css">
+    <link rel="stylesheet" href="/Views/Template/Static/toogle.css">
 </head>
 
 
@@ -105,6 +106,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
             </div>
         </div>
     </nav>
+
+    <!-- Theme Switcher -->
+    <input type="checkbox" class="theme-checkbox" id="themeSwitcher">
 
     <div class="container">
         <!-- Section en-tête -->
@@ -232,6 +236,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cv'])) {
     }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Theme Switcher -->
+    <script src="/Views/Template/js/toogle.js"></script>
 
 </body>
 

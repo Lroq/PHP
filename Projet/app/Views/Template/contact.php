@@ -44,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="/Views/Template/index.php" class="btn btn-primary">Retour</a>
     </div>
 
+
     <div class="container mt-5">
         <div class="contact-form">
             <h1 class="contact-title"><i class="fas fa-envelope"></i> Contactez-nous</h1>
