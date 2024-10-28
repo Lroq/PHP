@@ -1,14 +1,6 @@
 <?php
 session_start();
-
-// Inclusion du fichier de connexion à la base de données
 include '../../Model/db.php';
-
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
-    header("Location: login.php");
-    exit();
-}
 
 // Récupérer l'ID de l'utilisateur et le rôle à partir de la session
 $userId = $_SESSION['user_id'];
@@ -16,11 +8,11 @@ $role = $_SESSION['role']; // role: 'admin' ou 'user'
 
 // Définir la table et les colonnes selon le rôle
 if ($role === 'admin') {
-    $table = 'admins'; // Table admin
-    $columns = 'username AS name, email'; // Pour admin, récupérer uniquement username et email
+    $table = 'admins';
+    $columns = 'username AS name, email';
 } else {
-    $table = 'user'; // Table user pour les utilisateurs
-    $columns = 'username AS name, email'; // Récupérer uniquement username et email pour user
+    $table = 'user';
+    $columns = 'username AS name, email';
 }
 
 // Récupérer les informations de l'utilisateur en fonction du rôle
@@ -172,16 +164,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Views/Template/Static/style.css">
+    <link rel="stylesheet" href="/Views/Template/Static/profil.css">
     <link rel="stylesheet" href="/Views/Template/Static/toogle.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <title>Profile</title>
 </head>
 
 <body>
-     <!-- Theme Switcher -->
+    <!-- Theme Switcher -->
     <input type="checkbox" class="theme-checkbox" id="themeSwitcher">
     <div class="container mt-5">
         <h2>My Profile</h2>
@@ -210,6 +204,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
     <br>
+
+    <div id="map"></div>
+
+    <br>
+
     <footer>
         <center>
             <p>&copy; 2024 My CV Portfolio | All Rights Reserved</p>
@@ -222,6 +221,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Theme Switcher -->
     <script src="/Views/Template/js/toogle.js"></script>
+    <!-- Map Script -->
+    <script src="/Views/Template/js/map.js"></script>
 </body>
 
 </html>
