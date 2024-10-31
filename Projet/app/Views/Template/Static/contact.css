@@ -45,3 +45,52 @@ body {
 .m-3 {
     margin: 1rem; /* Ajoute une petite marge autour du bouton */
 }
+
+/* map */
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+/* Style pour la boîte de recherche sur la carte */
+.leaflet-top.leaflet-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Style de la boîte de recherche */
+.search-box {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 300px;
+}
+
+.search-box input[type="text"] {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.search-box input[type="text"]::placeholder {
+    color: #aaa;
+}
+
+.search-box button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    padding: 0 6px;
+}
+
+.search-box button i {
+    font-size: 18px;
+    color: #333;
+}

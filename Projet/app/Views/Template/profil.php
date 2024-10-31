@@ -169,8 +169,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="/Views/Template/Static/profil.css">
     <link rel="stylesheet" href="/Views/Template/Static/toogle.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <title>Profile</title>
 </head>
 
@@ -203,9 +201,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit" class="btn btn-primary">Update Profile</button>
         </form>
     </div>
-    <br>
-
-    <div id="map"></div>
 
     <br>
 
@@ -221,8 +216,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Theme Switcher -->
     <script src="/Views/Template/js/toogle.js"></script>
-    <!-- Map Script -->
-    <script src="/Views/Template/js/map.js"></script>
 </body>
 
 </html>
